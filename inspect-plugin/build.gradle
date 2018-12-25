@@ -1,0 +1,30 @@
+apply plugin: 'groovy'
+apply plugin: 'com.novoda.bintray-release'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation gradleApi()//gradle sdk
+    implementation localGroovy()//groovy sdk
+    implementation 'com.android.tools.build:gradle:3.1.4'
+    implementation 'org.javassist:javassist:3.20.0-GA'
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+publish {
+    userOrg = 'sunzxyong'
+    uploadName = 'ApiInspect'
+    groupId = 'com.zxy.android.plugin'
+    artifactId = 'api-inspect'
+    publishVersion = '0.0.1'
+    repoName = 'maven'
+    dryRun = 'false'
+    desc = 'An api compatibility inspect gradle plugin.'
+    website = 'https://github.com/Sunzxyong/ApiInspect'
+    issueTracker = 'https://github.com/Sunzxyong/ApiInspect/issues'
+    repository = 'https://github.com/Sunzxyong/ApiInspect.git'
+    bintrayUser = properties.getProperty("bintray.user")
+    bintrayKey = properties.getProperty("bintray.apikey")
+}
+//./gradlew :inspect-plugin:clean :inspect-plugin:build :inspect-plugin:bintrayUpload -PdryRun=false

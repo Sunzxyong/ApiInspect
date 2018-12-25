@@ -1,0 +1,3 @@
+include ':inspect-plugin'
+project(":inspect-plugin").projectDir = new File("../inspect-plugin")
+
