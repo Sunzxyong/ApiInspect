@@ -51,15 +51,15 @@ class ApiInspectTools {
         writer.write("==================================>Inspect Results<==================================\n")
         if (!incompatibleClassInfoSet.isEmpty()) {
             incompatibleClassInfoSet.each {
-                writer.write("Incompatible Api -> [ClassName: ${it.incompatibleClassName}]\n")
+                writer.write("Incompatible Api -> [Class: ${it.incompatibleClassName}]\n")
                 writer.write("                 └> [Occur In Class : ${it.className}]\n")
             }
         }
 
         if (!incompatibleMethodInfoSet.isEmpty()) {
             incompatibleMethodInfoSet.each {
-                writer.write("Incompatible Api -> [ClassName: ${it.incompatibleClassName}]\n")
-                writer.write("                 └> [MethodName: ${it.methodName}]\n")
+                writer.write("Incompatible Api -> [Class: ${it.incompatibleClassName}]\n")
+                writer.write("                 └> [Method: ${it.methodName}]\n")
                 writer.write("                 └> [Occur In Class: ${it.className}, Line: ${it.lineNumber}]\n")
             }
         }

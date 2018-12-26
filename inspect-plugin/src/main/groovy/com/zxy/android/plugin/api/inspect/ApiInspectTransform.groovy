@@ -205,12 +205,12 @@ class ApiInspectTransform extends Transform {
         if (!incompatibleClassInfoSet.isEmpty() || !incompatibleMethodInfoSet.isEmpty()) {
             mProject.logger.error("\n==================================>Api Incompatible<==================================")
             incompatibleClassInfoSet.each {
-                mProject.logger.error("Incompatible Api -> [ClassName: ${it.incompatibleClassName}]")
+                mProject.logger.error("Incompatible Api -> [Class: ${it.incompatibleClassName}]")
                 mProject.logger.error("                 └> [Occur in class : ${it.className}]")
             }
             incompatibleMethodInfoSet.each {
-                mProject.logger.error("Incompatible Api -> [ClassName: ${it.incompatibleClassName}]")
-                mProject.logger.error("                 └> [MethodName: ${it.methodName}]")
+                mProject.logger.error("Incompatible Api -> [Class: ${it.incompatibleClassName}]")
+                mProject.logger.error("                 └> [Method: ${it.methodName}]")
                 mProject.logger.error("                 └> [Occur in class: ${it.className}, Line: ${it.lineNumber}]")
             }
             mProject.logger.error("======================================================================================\n")
