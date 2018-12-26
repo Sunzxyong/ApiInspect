@@ -35,6 +35,8 @@ class ApiInspectTransform extends Transform {
 
     ApiInspector mApiInspector
 
+    DefaultApiInspectFilter mApiInspectFilter
+
     ApiInspectExtension mApiInspectExtension
 
     Set<File> mClassDirectoryPaths = new HashSet<>()
@@ -44,6 +46,7 @@ class ApiInspectTransform extends Transform {
     ApiInspectTransform(Project project) {
         this.mProject = project
         mApiInspectExtension = mProject.extensions.findByType(ApiInspectExtension.class)
+        mApiInspectFilter = new DefaultApiInspectFilter(project)
     }
 
     @Override
@@ -177,7 +180,12 @@ class ApiInspectTransform extends Transform {
         }
 
         mJarFilePaths.each { jarFile ->
-            if (shouldInspectApi(jarFile) && jarFile.getName().endsWith(SdkConstants.DOT_JAR)) {
+
+            String packageName = ApiInspectTools.getPackageFromBuildConfig(mClassPool, mProject, jarFile)
+
+            if (shouldInspectApi(packageName)) {
+                mApiInspector.addInspectedPackage(packageName)
+
                 JarFile jar = new JarFile(jarFile)
                 Enumeration<JarEntry> jarEntries = jar.entries()
                 while (jarEntries.hasMoreElements()) {
@@ -242,40 +250,29 @@ class ApiInspectTransform extends Transform {
         }
     }
 
-    def shouldInspectApi(File jarFile) {
-        String packageName = ApiInspectTools.getPackageFromBuildConfig(mClassPool, mProject, jarFile)
-
-        if (Strings.isNullOrEmpty(packageName))
-            return false
-
+    def setupConfig() {
         ApiInspectIncludeExtension includeExtension = mApiInspectExtension.include
         ApiInspectExcludeExtension excludeExtension = mApiInspectExtension.exclude
 
-        if (includeExtension != null && !includeExtension.apis.isEmpty()) {
-            Set<String> apis = includeExtension.apis
-            boolean include = apis.contains(packageName)
-            if (include)
-                mApiInspector.addInspectedPackage(packageName)
-            return include
-        } else if (excludeExtension != null && !excludeExtension.apis.isEmpty()) {
-            Set<String> apis = excludeExtension.apis
-            boolean exclude = apis.contains(packageName)
-            if (!exclude)
-                mApiInspector.addInspectedPackage(packageName)
-            return !exclude
-        }
+        if (includeExtension != null && includeExtension.apis != null)
+            mApiInspectFilter.addIncludePackages(includeExtension.apis)
 
-        if (!mApiInspector.filterPackage(packageName)) {
-            mApiInspector.addInspectedPackage(packageName)
-            return true
-        }
+        if (excludeExtension != null && excludeExtension.apis != null)
+            mApiInspectFilter.addExcludePackages(excludeExtension.apis)
+    }
 
-        return false
+    def shouldInspectApi(String packageName) {
+        if (Strings.isNullOrEmpty(packageName))
+            return false
+
+        return !mApiInspectFilter.filterPackage(packageName)
     }
 
     def initialize(TransformInvocation transformInvocation) {
         mClassPool = new ClassPool()
-        mApiInspector = new ApiInspector(mProject)
+        mApiInspector = new ApiInspector(mProject, mApiInspectFilter)
+
+        setupConfig()
 
         def android
         if (mProject.plugins.hasPlugin("com.android.application")) {

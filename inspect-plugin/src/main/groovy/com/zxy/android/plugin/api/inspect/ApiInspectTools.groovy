@@ -1,5 +1,6 @@
 package com.zxy.android.plugin.api.inspect
 
+import com.android.SdkConstants
 import com.android.utils.FileUtils
 import com.google.common.base.Strings
 import javassist.ClassPool
@@ -79,8 +80,9 @@ class ApiInspectTools {
 
     static String getPackageFromBuildConfig(ClassPool classPool, Project project, File jarFile) {
         def jarPath = jarFile.absolutePath
-        if (jarPath == null)
+        if (Strings.isNullOrEmpty(jarPath) && !jarFile.getName().endsWith(SdkConstants.DOT_JAR))
             return null
+
         def buildConfigs = project.zipTree(jarPath).filter {
             it.name == "BuildConfig.class"
         }

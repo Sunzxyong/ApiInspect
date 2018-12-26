@@ -1,6 +1,7 @@
 package com.zxy.android.plugin.api.inspect
 
 import com.android.SdkConstants
+import com.google.common.base.Strings
 import javassist.CtClass
 import javassist.CtMethod
 import org.gradle.api.Project
@@ -14,15 +15,27 @@ class DefaultApiInspectFilter implements ApiInspectFilter {
 
     ApiInspectExtension mApiInspectExtension
 
+    Set<String> mIncludePackages = new HashSet<>()
+
+    Set<String> mExcludePackages = new HashSet<>()
+
     DefaultApiInspectFilter(Project project) {
         this.mProject = project
         mApiInspectExtension = mProject.extensions.findByType(ApiInspectExtension.class)
     }
 
+    void addIncludePackages(Set<String> packages) {
+        mIncludePackages.addAll(packages)
+    }
+
+    void addExcludePackages(Set<String> packages) {
+        mExcludePackages.addAll(packages)
+    }
+
     @Override
     boolean filter(CtClass clazz) {
         boolean inspectSystemApi = mApiInspectExtension.inspectSystemApi
-        return isSystemGenerateClass(clazz.getSimpleName()) || isJavaSystemClass(clazz.getName()) || (inspectSystemApi ? false : isAndroidSystemClass(clazz.getName()))
+        return isSystemGenerateClass(clazz.getSimpleName()) || isJavaSystemClass(clazz.getName()) || (inspectSystemApi ? false : isAndroidSystemClass(clazz.getName())) || filterFromExtension(clazz.getName())
     }
 
     @Override
@@ -33,7 +46,7 @@ class DefaultApiInspectFilter implements ApiInspectFilter {
         if (index >= 0) {
             simpleName = className.substring(index + 1)
         }
-        return isSystemGenerateClass(simpleName) || isJavaSystemClass(className) || (inspectSystemApi ? false : isAndroidSystemClass(className))
+        return isSystemGenerateClass(simpleName) || isJavaSystemClass(className) || (inspectSystemApi ? false : isAndroidSystemClass(className)) || filterFromExtension(className)
     }
 
     @Override
@@ -44,7 +57,38 @@ class DefaultApiInspectFilter implements ApiInspectFilter {
     @Override
     boolean filterPackage(String packageName) {
         boolean inspectSystemApi = mApiInspectExtension.inspectSystemApi
-        return isJavaSystemClass(packageName) || (inspectSystemApi ? false : isAndroidSystemClass(packageName))
+        return isJavaSystemClass(packageName) || (inspectSystemApi ? false : isAndroidSystemClass(packageName)) || filterFromExtension(packageName)
+    }
+
+    boolean filterFromExtension(String name) {
+        Set<String> includes = mIncludePackages
+        Set<String> excludes = mExcludePackages
+
+        boolean filter = false
+
+        if (includes != null && !includes.isEmpty()) {
+            for (int i = 0; i < includes.size(); i++) {
+                String tmp = includes[i]
+                if (Strings.isNullOrEmpty(tmp))
+                    continue
+                if (name.startsWith(tmp)) {
+                    filter = false
+                    break
+                }
+            }
+        } else if (excludes != null && !excludes.isEmpty()) {
+            for (int i = 0; i < excludes.size(); i++) {
+                String tmp = excludes[i]
+                if (Strings.isNullOrEmpty(tmp))
+                    continue
+                if (name.startsWith(tmp)) {
+                    filter = true
+                    break
+                }
+            }
+        }
+
+        return filter
     }
 
     boolean isSystemGenerateClass(String name) {

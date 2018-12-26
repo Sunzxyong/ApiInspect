@@ -27,9 +27,9 @@ class ApiInspector {
 
     private ApiInspectFilter mApiInspectFilter
 
-    ApiInspector(Project project) {
+    ApiInspector(Project project, ApiInspectFilter filter) {
         this.mProject = project
-        mApiInspectFilter = new DefaultApiInspectFilter(project)
+        mApiInspectFilter = filter
     }
 
     Set<String> getInspectedClasses() {
@@ -50,10 +50,6 @@ class ApiInspector {
 
     void addInspectedPackage(String packageName) {
         mInspectedPackages.add(packageName)
-    }
-
-    boolean filterPackage(String packageName) {
-        return mApiInspectFilter.filterPackage(packageName)
     }
 
     void inspectClass(ClassPool classPool, CtClass clazz) {
