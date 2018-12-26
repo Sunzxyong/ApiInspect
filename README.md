@@ -56,11 +56,11 @@ apiInspect {
 ## **Inspect Result**
 When the Apk build is completed. The results of the inspection will be printed on the console：
 
-<img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/apiinspect.png" width="500"/img>
+<img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/apiinspect.png" width="500"/>
 
 Of course, The results of the inspection will also be stored in the **`api-inspect`** directory：
 
-<img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/apiinspect_result.jpg" width="500"/img>
+<img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/apiinspect_result.jpg" width="500"/>
 
 ## **Support**
 
