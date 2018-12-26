@@ -52,6 +52,10 @@ class ApiInspector {
         mInspectedPackages.add(packageName)
     }
 
+    boolean filterPackage(String packageName) {
+        return mApiInspectFilter.filterPackage(packageName)
+    }
+
     void inspectClass(ClassPool classPool, CtClass clazz) {
         if (mApiInspectFilter.filter(clazz))
             return
@@ -60,7 +64,7 @@ class ApiInspector {
             return
 
         clazz.getRefClasses().each {
-            if (!mApiInspectFilter.filter(it)) {
+            if (!mApiInspectFilter.filter(it.toString())) {
                 try {
                     classPool.get(it)
                 } catch (NotFoundException e) {

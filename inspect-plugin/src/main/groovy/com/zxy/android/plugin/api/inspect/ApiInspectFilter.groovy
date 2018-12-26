@@ -14,4 +14,6 @@ interface ApiInspectFilter {
 
     boolean filter(CtMethod method)
 
+    boolean filterPackage(String packageName)
+
 }

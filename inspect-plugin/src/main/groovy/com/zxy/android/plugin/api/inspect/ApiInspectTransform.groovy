@@ -261,9 +261,12 @@ class ApiInspectTransform extends Transform {
             return !exclude
         }
 
-        mApiInspector.addInspectedPackage(packageName)
+        if (!mApiInspector.filterPackage(packageName)) {
+            mApiInspector.addInspectedPackage(packageName)
+            return true
+        }
 
-        return true
+        return false
     }
 
     def initialize(TransformInvocation transformInvocation) {

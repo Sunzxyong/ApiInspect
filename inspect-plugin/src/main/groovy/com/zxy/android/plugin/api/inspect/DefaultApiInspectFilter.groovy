@@ -22,7 +22,7 @@ class DefaultApiInspectFilter implements ApiInspectFilter {
     @Override
     boolean filter(CtClass clazz) {
         boolean inspectSystemApi = mApiInspectExtension.inspectSystemApi
-        return isSystemGenerateClass(clazz.getSimpleName()) || isJavaSystemClass(clazz.getName()) || inspectSystemApi ? true : isAndroidSystemClass(clazz.getName())
+        return isSystemGenerateClass(clazz.getSimpleName()) || isJavaSystemClass(clazz.getName()) || inspectSystemApi ? false : isAndroidSystemClass(clazz.getName())
     }
 
     @Override
@@ -35,12 +35,17 @@ class DefaultApiInspectFilter implements ApiInspectFilter {
         if (index >= 0) {
             simpleName = className.substring(index + 1)
         }
-        return isSystemGenerateClass(simpleName) || isJavaSystemClass(className) || inspectSystemApi ? true : isAndroidSystemClass(className)
+        return isSystemGenerateClass(simpleName) || isJavaSystemClass(className) || inspectSystemApi ? false : isAndroidSystemClass(className)
     }
 
     @Override
     boolean filter(CtMethod method) {
         return false
+    }
+
+    @Override
+    boolean filterPackage(String packageName) {
+        return isJavaSystemClass(packageName) || inspectSystemApi ? false : isAndroidSystemClass(packageName)
     }
 
     boolean isSystemGenerateClass(String name) {
