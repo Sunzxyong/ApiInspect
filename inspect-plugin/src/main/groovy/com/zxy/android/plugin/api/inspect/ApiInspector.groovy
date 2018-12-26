@@ -64,7 +64,7 @@ class ApiInspector {
             return
 
         clazz.getRefClasses().each {
-            if (!mApiInspectFilter.filter(it.toString())) {
+            if (!mApiInspectFilter.filter(String.valueOf(it))) {
                 try {
                     classPool.get(it)
                 } catch (NotFoundException e) {
@@ -93,7 +93,8 @@ class ApiInspector {
                     void edit(MethodCall m) throws CannotCompileException {
                         super.edit(m)
                         try {
-                            m.getMethod()
+                            if (!mApiInspectFilter.filter(m.className))
+                                m.getMethod()
                         } catch (NotFoundException e) {
                             IncompatibleMethodInfo info = new IncompatibleMethodInfo()
                             info.className = clazz.name

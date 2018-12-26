@@ -22,20 +22,18 @@ class DefaultApiInspectFilter implements ApiInspectFilter {
     @Override
     boolean filter(CtClass clazz) {
         boolean inspectSystemApi = mApiInspectExtension.inspectSystemApi
-        return isSystemGenerateClass(clazz.getSimpleName()) || isJavaSystemClass(clazz.getName()) || inspectSystemApi ? false : isAndroidSystemClass(clazz.getName())
+        return isSystemGenerateClass(clazz.getSimpleName()) || isJavaSystemClass(clazz.getName()) || (inspectSystemApi ? false : isAndroidSystemClass(clazz.getName()))
     }
 
     @Override
     boolean filter(String className) {
         boolean inspectSystemApi = mApiInspectExtension.inspectSystemApi
-        if (!className.endsWith(SdkConstants.DOT_CLASS))
-            className += SdkConstants.DOT_CLASS
         int index = className.lastIndexOf('.')
         String simpleName = className
         if (index >= 0) {
             simpleName = className.substring(index + 1)
         }
-        return isSystemGenerateClass(simpleName) || isJavaSystemClass(className) || inspectSystemApi ? false : isAndroidSystemClass(className)
+        return isSystemGenerateClass(simpleName) || isJavaSystemClass(className) || (inspectSystemApi ? false : isAndroidSystemClass(className))
     }
 
     @Override
@@ -46,11 +44,13 @@ class DefaultApiInspectFilter implements ApiInspectFilter {
     @Override
     boolean filterPackage(String packageName) {
         boolean inspectSystemApi = mApiInspectExtension.inspectSystemApi
-        return isJavaSystemClass(packageName) || inspectSystemApi ? false : isAndroidSystemClass(packageName)
+        return isJavaSystemClass(packageName) || (inspectSystemApi ? false : isAndroidSystemClass(packageName))
     }
 
     boolean isSystemGenerateClass(String name) {
-        return name.endsWith(SdkConstants.DOT_CLASS) && (name.startsWith('R$') || name.contentEquals('R.class') || name.contentEquals("BuildConfig.class"))
+        if (!name.endsWith(SdkConstants.DOT_CLASS))
+            name += SdkConstants.DOT_CLASS
+        return name.startsWith('R$') || name.contentEquals('R.class') || name.contentEquals("BuildConfig.class")
     }
 
     boolean isJavaSystemClass(String name) {

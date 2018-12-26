@@ -18,7 +18,7 @@ class ApiInspectTools {
         target.createNewFile()
         BufferedWriter writer = target.newWriter("UTF-8", true)
 
-        writer.write("==================================>Inspect Packages<==================================\n")
+        writer.write("=====================================>Inspect Packages<=====================================\n")
         if (!inspectedPackages.isEmpty()) {
             inspectedPackages.each {
                 writer.write("> $it\n")
@@ -26,9 +26,9 @@ class ApiInspectTools {
         } else {
             writer.write("> NONE.\n")
         }
-        writer.write("======================================================================================\n\n")
+        writer.write("============================================================================================\n\n")
 
-        writer.write("==================================>Inspect Classes<==================================\n")
+        writer.write("=====================================>Inspect Classes<=====================================\n")
         if (!inspectedClasses.isEmpty()) {
             inspectedClasses.each {
                 writer.write("> $it\n")
@@ -36,7 +36,7 @@ class ApiInspectTools {
         } else {
             writer.write("> NONE.\n")
         }
-        writer.write("======================================================================================\n\n")
+        writer.write("============================================================================================\n\n")
         writer.flush()
         writer.close()
     }
@@ -49,11 +49,14 @@ class ApiInspectTools {
         BufferedWriter writer = target.newWriter("UTF-8", true)
 
         int count = incompatibleClassInfoSet.size() + incompatibleMethodInfoSet.size()
-        writer.write("==================================>Inspect Results ($count)<==================================\n")
+        writer.write("=====================================>Inspect Results<=====================================\n")
+        writer.write(">>> Count: [$count]\n")
+        writer.write("--------------------------------------------------------------------------------------------\n")
         if (!incompatibleClassInfoSet.isEmpty()) {
             incompatibleClassInfoSet.each {
                 writer.write("Incompatible Api -> [Class: ${it.incompatibleClassName}]\n")
                 writer.write("                 └> [Occur In Class : ${it.className}]\n")
+                writer.write("--------------------------------------------------------------------------------------------\n")
             }
         }
 
@@ -62,13 +65,14 @@ class ApiInspectTools {
                 writer.write("Incompatible Api -> [Class: ${it.incompatibleClassName}]\n")
                 writer.write("                 └> [Method: ${it.methodName}]\n")
                 writer.write("                 └> [Occur In Class: ${it.className}, Line: ${it.lineNumber}]\n")
+                writer.write("--------------------------------------------------------------------------------------------\n")
             }
         }
 
         if (incompatibleClassInfoSet.isEmpty() && incompatibleMethodInfoSet.isEmpty()) {
             writer.write("> NONE.\n")
         }
-        writer.write("======================================================================================\n\n")
+        writer.write("============================================================================================\n\n")
         writer.flush()
         writer.close()
     }

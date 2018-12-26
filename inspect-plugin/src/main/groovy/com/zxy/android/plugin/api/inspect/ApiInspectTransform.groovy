@@ -204,17 +204,21 @@ class ApiInspectTransform extends Transform {
 
         if (!incompatibleClassInfoSet.isEmpty() || !incompatibleMethodInfoSet.isEmpty()) {
             int count = incompatibleClassInfoSet.size() + incompatibleMethodInfoSet.size()
-            mProject.logger.error("\n==================================>Api Incompatible ($count)<==================================")
+            mProject.logger.error("\n=====================================>Api Incompatible<=====================================")
+            mProject.logger.error(">>> Count: [$count]")
+            mProject.logger.error("--------------------------------------------------------------------------------------------")
             incompatibleClassInfoSet.each {
                 mProject.logger.error("Incompatible Api -> [Class: ${it.incompatibleClassName}]")
                 mProject.logger.error("                 └> [Occur in class : ${it.className}]")
+                mProject.logger.error("--------------------------------------------------------------------------------------------")
             }
             incompatibleMethodInfoSet.each {
                 mProject.logger.error("Incompatible Api -> [Class: ${it.incompatibleClassName}]")
                 mProject.logger.error("                 └> [Method: ${it.methodName}]")
                 mProject.logger.error("                 └> [Occur in class: ${it.className}, Line: ${it.lineNumber}]")
+                mProject.logger.error("--------------------------------------------------------------------------------------------")
             }
-            mProject.logger.error("======================================================================================\n")
+            mProject.logger.error("============================================================================================\n")
         }
 
         def variant = transformInvocation.context.variantName
