@@ -17,7 +17,7 @@ publish {
     uploadName = 'ApiInspect'
     groupId = 'com.zxy.android.plugin'
     artifactId = 'api-inspect'
-    publishVersion = '0.0.1'
+    publishVersion = '1.0.0'
     repoName = 'maven'
     dryRun = 'false'
     desc = 'An api compatibility inspect gradle plugin.'
