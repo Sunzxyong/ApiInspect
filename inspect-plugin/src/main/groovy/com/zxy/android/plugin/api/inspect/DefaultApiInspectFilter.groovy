@@ -45,6 +45,7 @@ class DefaultApiInspectFilter implements ApiInspectFilter {
 
     @Override
     boolean filterPackage(String packageName) {
+        boolean inspectSystemApi = mApiInspectExtension.inspectSystemApi
         return isJavaSystemClass(packageName) || inspectSystemApi ? false : isAndroidSystemClass(packageName)
     }
 
