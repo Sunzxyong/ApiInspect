@@ -203,7 +203,8 @@ class ApiInspectTransform extends Transform {
         Set<IncompatibleMethodInfo> incompatibleMethodInfoSet = mApiInspector.getIncompatibleMethods()
 
         if (!incompatibleClassInfoSet.isEmpty() || !incompatibleMethodInfoSet.isEmpty()) {
-            mProject.logger.error("\n==================================>Api Incompatible<==================================")
+            int count = incompatibleClassInfoSet.size() + incompatibleMethodInfoSet.size()
+            mProject.logger.error("\n==================================>Api Incompatible ($count)<==================================")
             incompatibleClassInfoSet.each {
                 mProject.logger.error("Incompatible Api -> [Class: ${it.incompatibleClassName}]")
                 mProject.logger.error("                 └> [Occur in class : ${it.className}]")
@@ -259,6 +260,8 @@ class ApiInspectTransform extends Transform {
                 mApiInspector.addInspectedPackage(packageName)
             return !exclude
         }
+
+        mApiInspector.addInspectedPackage(packageName)
 
         return true
     }

@@ -48,7 +48,8 @@ class ApiInspectTools {
         target.createNewFile()
         BufferedWriter writer = target.newWriter("UTF-8", true)
 
-        writer.write("==================================>Inspect Results<==================================\n")
+        int count = incompatibleClassInfoSet.size() + incompatibleMethodInfoSet.size()
+        writer.write("==================================>Inspect Results ($count)<==================================\n")
         if (!incompatibleClassInfoSet.isEmpty()) {
             incompatibleClassInfoSet.each {
                 writer.write("Incompatible Api -> [Class: ${it.incompatibleClassName}]\n")

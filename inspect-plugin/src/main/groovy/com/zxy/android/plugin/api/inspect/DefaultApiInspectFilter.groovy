@@ -48,7 +48,7 @@ class DefaultApiInspectFilter implements ApiInspectFilter {
     }
 
     boolean isJavaSystemClass(String name) {
-        return name.startsWith("java.") || name.startsWith("javax.")
+        return name.startsWith("java.") || name.startsWith("javax.") || name.startsWith("org.apache.")
     }
 
     boolean isAndroidSystemClass(String name) {
