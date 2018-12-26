@@ -12,6 +12,7 @@ import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.api.transform.TransformOutputProvider
 import com.android.build.gradle.AppExtension
+import com.android.build.gradle.LibraryExtension
 import com.android.utils.FileUtils
 import com.google.common.base.Strings
 import com.google.common.collect.ImmutableSet
@@ -268,9 +269,9 @@ class ApiInspectTransform extends Transform {
 
         def android
         if (mProject.plugins.hasPlugin("com.android.application")) {
-            android = mProject.extensions.getByType(AppExtension)
+            android = mProject.extensions.getByType(AppExtension.class)
         } else if (mProject.plugins.hasPlugin("com.android.library")) {
-            android = mProject.extensions.getByType(LibraryExtension)
+            android = mProject.extensions.getByType(LibraryExtension.class)
         } else {
             throw new GradleException("The plugin type is not supported！")
         }

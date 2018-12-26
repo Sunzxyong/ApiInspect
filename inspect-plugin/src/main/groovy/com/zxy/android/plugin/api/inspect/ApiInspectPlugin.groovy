@@ -1,5 +1,7 @@
 package com.zxy.android.plugin.api.inspect
 
+import com.android.build.gradle.AppExtension
+import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -12,9 +14,9 @@ class ApiInspectPlugin implements Plugin<Project> {
     void apply(Project project) {
         def android = null
         if (project.plugins.hasPlugin("com.android.application")) {
-            android = project.extensions.getByType(AppExtension)
+            android = project.extensions.getByType(AppExtension.class)
         } else if (project.plugins.hasPlugin("com.android.library")) {
-            android = project.extensions.getByType(LibraryExtension)
+            android = project.extensions.getByType(LibraryExtension.class)
         }
 
         if (android == null)
