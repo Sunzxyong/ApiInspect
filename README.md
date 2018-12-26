@@ -10,7 +10,7 @@ An api compatibility inspect gradle plugin.（一个用于检测Api兼容性的G
 
 ## **Usage**
 ### **Installation**
-Add dependencies in `build.gradle` of the `root project`：
+Add dependencies in **`build.gradle`** of the **`root project`**：
 
 ```
     dependencies {
@@ -21,14 +21,14 @@ Add dependencies in `build.gradle` of the `root project`：
     }
 ```
 
-and add the `apply plugin` to build.gradle in the module：
+and add the **`apply plugin`** to build.gradle in the module：
 
 ```
 apply plugin: 'api.inspect'
 ```
 
 ### **Configuration**
-By default, `ApiInspect` will inspects all apis but does not contain the system api. Of course, you can also customize `exclude` or `include` Settings：
+By default, **`ApiInspect`** will inspects all apis but does not contain the system api. Of course, you can also customize **`exclude`** or **`include`** Settings：
 
 ```
 apiInspect {
@@ -52,6 +52,14 @@ apiInspect {
 
 }
 ```
+
+## **Inspect Result**
+When the Apk build is completed. The results of the inspection will be printed on the console：
+
+![](https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/apiinspect.png)
+
+Of course, The results of the inspection will also be stored in the **`api-inspect`** directory：
+![](https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/apiinspect_result.jpg)
 
 ## **Support**
 
