@@ -1,5 +1,5 @@
 # **ApiInspect**
-An api compatibility inspect gradle plugin.（一个用于检测Api兼容性的Gradle插件）
+An api compatibility inspect gradle plugin.（一个Api兼容性检测的Gradle插件）
 
 ----
 
