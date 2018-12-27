@@ -18,9 +18,14 @@ class ApiInspectExtension {
     ApiInspectExcludeExtension exclude
 
     ApiInspectExtension(Project project) {
-        ObjectFactory objectFactory = project.getObjects()
-        include = objectFactory.newInstance(ApiInspectIncludeExtension.class)
-        exclude = objectFactory.newInstance(ApiInspectExcludeExtension.class)
+        try {
+            ObjectFactory objectFactory = project.getObjects()
+            include = objectFactory.newInstance(ApiInspectIncludeExtension.class)
+            exclude = objectFactory.newInstance(ApiInspectExcludeExtension.class)
+        } catch (Exception e) {
+            include = ApiInspectIncludeExtension.class.newInstance()
+            exclude = ApiInspectExcludeExtension.class.newInstance()
+        }
     }
 
     void include(Action<ApiInspectIncludeExtension> action) {
