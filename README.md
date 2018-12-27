@@ -16,7 +16,7 @@ Add dependencies in **`build.gradle`** of the **`root project`**：
     dependencies {
         // ...
         classpath('com.zxy.android.plugin:api-inspect:1.0.0') {
-            exclude module: 'gradle'
+            exclude group: 'com.android.tools.build', module: 'gradle'
         }
     }
 ```
