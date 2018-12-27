@@ -118,7 +118,7 @@ class ApiInspectTransform extends Transform {
                             case Status.CHANGED:
                                 String addFileName = FileUtils.relativePossiblyNonExistingPath(changeInputFile, directoryInput.file)
                                 File addFile = new File(classDirectory, addFileName)
-                                FileUtils.copyFile(changeInputFile, addFile)
+                                copyFileCompatible(changeInputFile, addFile)
                                 break
                             case Status.REMOVED:
                                 String removeFileName = FileUtils.relativePossiblyNonExistingPath(changeInputFile, directoryInput.file)
@@ -147,7 +147,7 @@ class ApiInspectTransform extends Transform {
                             break
                         case Status.ADDED:
                         case Status.CHANGED:
-                            FileUtils.copyFile(jarInput.file, jarFile)
+                            copyFileCompatible(jarInput.file, jarFile)
                             mClassPool.appendClassPath(jarFile.absolutePath)
                             mJarFilePaths.add(jarFile)
                             break
@@ -171,7 +171,7 @@ class ApiInspectTransform extends Transform {
 
                 input.jarInputs.each { JarInput jarInput ->
                     File jarFile = outputProvider.getContentLocation(jarInput.name, jarInput.contentTypes, jarInput.scopes, Format.JAR)
-                    FileUtils.copyFile(jarInput.file, jarFile)
+                    copyFileCompatible(jarInput.file, jarFile)
 
                     mClassPool.appendClassPath(jarFile.absolutePath)
                     mJarFilePaths.add(jarFile)
@@ -245,7 +245,7 @@ class ApiInspectTransform extends Transform {
 
             input.jarInputs.each { JarInput jarInput ->
                 File jarFile = outputProvider.getContentLocation(jarInput.name, jarInput.contentTypes, jarInput.scopes, Format.JAR)
-                FileUtils.copyFile(jarInput.file, jarFile)
+                copyFileCompatible(jarInput.file, jarFile)
             }
         }
     }
@@ -295,6 +295,14 @@ class ApiInspectTransform extends Transform {
             it.jarInputs.each {
                 mClassPool.appendClassPath(it.file.absolutePath)
             }
+        }
+    }
+
+    def copyFileCompatible(File srcFile, File destFile) {
+        try {
+            FileUtils.copyFile(srcFile, destFile)
+        } catch (Exception e) {
+            org.apache.commons.io.FileUtils.copyFile(srcFile, destFile)
         }
     }
 }
