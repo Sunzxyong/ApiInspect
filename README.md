@@ -72,8 +72,9 @@ Version control supports the semantic 2.0 protocol
 * **1.0.0：First version, support api compatibility inspect.**
 
 ## **About**
-**Blog**：[https://zhengxiaoyong.com](https://zhengxiaoyong.com)
-**Wechat**：
+* **Blog**：[https://zhengxiaoyong.com](https://zhengxiaoyong.com)
+* **Wechat**：
+
 ![](https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/qrcode.jpg)
 
 
