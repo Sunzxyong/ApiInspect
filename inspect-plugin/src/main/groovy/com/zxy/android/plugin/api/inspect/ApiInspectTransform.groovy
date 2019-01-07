@@ -277,8 +277,6 @@ class ApiInspectTransform extends Transform {
         def android
         if (mProject.plugins.hasPlugin("com.android.application")) {
             android = mProject.extensions.getByType(AppExtension.class)
-        } else if (mProject.plugins.hasPlugin("com.android.library")) {
-            android = mProject.extensions.getByType(LibraryExtension.class)
         } else {
             throw new GradleException("The plugin type is not supported！")
         }
