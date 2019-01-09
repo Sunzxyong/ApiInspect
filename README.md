@@ -15,7 +15,7 @@ Add dependencies in **`build.gradle`** of the **`root project`**：
 ```
     dependencies {
         // ...
-        classpath('com.zxy.android.plugin:api-inspect:1.1.0') {
+        classpath('com.zxy.android.plugin:api-inspect:1.2.0') {
             exclude group: 'com.android.tools.build', module: 'gradle'
         }
     }
@@ -70,6 +70,8 @@ Of course, The results of the inspection will also be stored in the **`api-inspe
 Version control supports the semantic 2.0 protocol
 
 * **1.0.0：First version, support api compatibility inspect.**
+* **1.1.0：Optimization logic.**
+* **1.2.0：Optimization of the library plugin.**
 
 ## **About**
 * **Blog**：[https://zhengxiaoyong.com](https://zhengxiaoyong.com)

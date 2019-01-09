@@ -11,6 +11,13 @@ class ApiInspectPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+
+        project.extensions.create("apiInspect", ApiInspectExtension.class, project)
+
+        if (project.plugins.hasPlugin("com.android.library")) {
+            return
+        }
+
         def android = null
         if (project.plugins.hasPlugin("com.android.application")) {
             android = project.extensions.getByType(AppExtension.class)
@@ -18,7 +25,6 @@ class ApiInspectPlugin implements Plugin<Project> {
 
         if (android == null)
             return
-        project.extensions.create("apiInspect", ApiInspectExtension.class, project)
         android.registerTransform(new ApiInspectTransform(project))
     }
 }
